@@ -19,6 +19,10 @@ YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
+@app.route("/")
+def hello_world():
+    return "hello world!"
+
 @app.route("/callback", methods=["POST"])
 def callback():
     signature = request.headers['X-Line-Signature']
@@ -41,5 +45,5 @@ def handle_message(event):
     )
 
 if __name__ == "__main__":
-    port = int(os.getenv("PORT", 5000))
+    port = int(os.getenv("PORT"))
     app.run(host="0.0.0.0", port=port)
