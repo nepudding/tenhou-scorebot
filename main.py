@@ -12,6 +12,8 @@ from linebot.models import (
 
 import os
 
+import scraping
+
 app = Flask(__name__)
 
 YOUR_CHANNEL_ACCESS_TOKEN = os.getenv('YOUR_CHANNEL_ACCESS_TOKEN', None)
@@ -42,9 +44,9 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=event.message.text))
-
+        event.reply_message,
+        TextSendMessage(text="にゃ〜ん")
+    )
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT","80"))
