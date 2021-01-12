@@ -47,12 +47,12 @@ def handle_message(event):
     hoge = event.message.text
     if re.match(r'にゃーん*', hoge):        
         line_bot_api.reply_message(
-            event.reply_message,
+            event.reply_token,
             TextSendMessage(text="にゃ〜ん")
         )
     else:
         line_bot_api.reply_message(
-            event.reply_message,
+            event.reply_token,
             TextSendMessage(text="にょ〜ん")
         )
 
