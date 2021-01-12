@@ -11,6 +11,7 @@ from linebot.models import (
 )
 
 import os
+import re
 
 import scraping
 
@@ -43,10 +44,17 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    line_bot_api.reply_message(
-        event.reply_message,
-        TextSendMessage(text="にゃ〜ん")
-    )
+    hoge = event.message.text
+    if re.match(r'にゃーん*', hoge):        
+        line_bot_api.reply_message(
+            event.reply_message,
+            TextSendMessage(text="にゃ〜ん")
+        )
+    else:
+        line_bot_api.reply_message(
+            event.reply_message,
+            TextSendMessage(text="にょ〜ん")
+        )
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT","80"))
