@@ -19,9 +19,14 @@ app = Flask(__name__)
 
 YOUR_CHANNEL_ACCESS_TOKEN = os.getenv('YOUR_CHANNEL_ACCESS_TOKEN', None)
 YOUR_CHANNEL_SECRET = os.getenv('YOUR_CHANNEL_SECRET', None)
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
+@app.route('/')
+def hello_world():
+    return 'hello world'
 
 @app.route("/callback", methods=['POST'])
 def callback():
