@@ -32,7 +32,7 @@ def get_log(day):
                 continue
             _, time, _, score = re.split(r"\ \|\ ",line[:-2])
             hoge = {}
-            hoge["time"] = day+"".join(time.split(":"))
+            hoge["date"] = day+"".join(time.split(":"))
             scores = {}
             for i in score.split():
                 name, point = i[:-1].split("(")
@@ -41,7 +41,7 @@ def get_log(day):
             out.append(hoge)
         return out
     return "OK"
-    
+
 def download_file(url, name):
     try :
         gz_path = f"/tmp/{name}.log.gz"
@@ -58,4 +58,3 @@ def download_file(url, name):
 if __name__ == "__main__":
     day = input()
     print(get_log(day))
-    
