@@ -8,13 +8,12 @@ import re, random, string
 _URL = "https://tenhou.net/sc/raw/dat/sca{}.log.gz"
 _OLD_URL = "https://tenhou.net/sc/raw/dat/{}/sca{}.log.gz"
 JST = timezone(timedelta(hours=+9), 'JST')
-ROOM = "C9506"
 
 def randomname(n):
    randlst = [random.choice(string.ascii_letters + string.digits) for i in range(n)]
    return ''.join(randlst)
 
-def get_log(day):
+def get_log(day, ROOM):
     name = randomname(4)
     print(name)
     url = _URL.format(day)
@@ -57,4 +56,4 @@ def download_file(url, name):
 
 if __name__ == "__main__":
     day = input()
-    print(get_log(day))
+    print(get_log(day,"C1077"))
