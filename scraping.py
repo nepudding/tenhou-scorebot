@@ -16,14 +16,14 @@ def randomname(n):
 
 def get_log(day):
     name = randomname(4)
+    print(name)
     url = _URL.format(day)
     if download_file(url, name):
         url = _OLD_URL.format(day[:4],day)
         print(url)
         if download_file(url, name):
-            return
-    with gzip.open(f"/tmp/{name}.log.gz","rb") as f:
-        newname = f"/tmp/{name}.log"
+            return -1
+    with open(f"/tmp/{name}.log","rb") as f:
         reader = codecs.getreader("utf-8")
         contents = reader(f)
         out = []
@@ -46,6 +46,11 @@ def download_file(url, name):
     try :
         gz_path = f"/tmp/{name}.log.gz"
         urllib.request.urlretrieve(url,gz_path)
+        with gzip.open(f"/tmp/{name}.log.gz","rb") as f:
+            with open(f"/tmp/{name}.log", "w") as nf:
+                reader = codecs.getreader("utf-8")
+                contents = reader(f)
+                nf.write(contents.read())
         return 0
     except:
         return -1

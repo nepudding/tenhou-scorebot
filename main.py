@@ -16,6 +16,8 @@ import re
 import psycopg2
 import psycopg2.extras
 
+import scraping
+
 app = Flask(__name__)
 
 YOUR_CHANNEL_ACCESS_TOKEN = os.getenv('YOUR_CHANNEL_ACCESS_TOKEN', None)
