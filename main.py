@@ -13,7 +13,8 @@ from linebot.models import (
 import os
 import re
 
-import scraping
+import psycopg2
+import psycopg2.extras
 
 app = Flask(__name__)
 
@@ -27,6 +28,13 @@ handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 @app.route('/')
 def hello_world():
     return 'hello world'
+
+def get_connection():
+    return psycopg2.connect(DATABASE_URL, sslmode='require')
+
+def get_connection():
+    with get_connection() as conn:
+        with conn.cursor(cursor_factory=DictCursor)
 
 @app.route("/callback", methods=['POST'])
 def callback():
