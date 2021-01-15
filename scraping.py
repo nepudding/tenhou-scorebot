@@ -14,9 +14,6 @@ def randomname(n):
    randlst = [random.choice(string.ascii_letters + string.digits) for i in range(n)]
    return ''.join(randlst)
 
-def get_today(format='%Y%m%d'):
-    return datetime.now(JST).strftime(format)
-
 def get_log(day):
     name = randomname(4)
     url = _URL.format(day)
