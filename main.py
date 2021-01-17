@@ -50,7 +50,7 @@ def callback():
 
 def aggregate_score():
     sql = my_database.get_score("C1077")
-    return str(sql)
+    return sql
 
 
 
