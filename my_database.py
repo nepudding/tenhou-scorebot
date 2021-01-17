@@ -15,7 +15,7 @@ def get_connection():
     return psycopg2.connect(dsn)
 
 def get_score(room):
-    sql = f"SELECT * FROM scores ORDER BY date WHERE room_id = '{room}'"
+    sql = f"SELECT * FROM scores WHERE room_id = '{room}'"
     sql += "ORDER BY date,id"
     with get_connection() as conn:
         with conn.cursor(cursor_factory=DictCursor) as cur:
