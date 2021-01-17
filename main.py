@@ -35,13 +35,6 @@ JST = timezone(timedelta(hours=+9), 'JST')
 def hello_world():
     return 'hello world'
 
-def get_connection():
-    return psycopg2.connect(DATABASE_URL, sslmode='require')
-
-def get_connection():
-    with get_connection() as conn:
-        with conn.cursor(cursor_factory=DictCursor)
-
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
