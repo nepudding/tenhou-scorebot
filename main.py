@@ -48,11 +48,11 @@ def set_score(day, room):
     logs = scraping.get_log(day, room)
     with get_connection() as conn:
         with conn.cursor() as cur:
-            cur.execute(f"DELETE FROM scores WHERE date BETWEEN '{day}' AND '{day} 23:59:59' AND room_id = '{room}'")
+            cur.execute(f"DELETE FROM scores WHERE date BETWEEN '{day}' AND '{day} 23:59:59' AND room_id = '{room}';")
             sql = "INSERT INTO scores (date, user_name, rank, score, room_id) VALUES "
             values = []
             for log in logs:
-                for hoge in logs[score]:
+                for hoge in log[score]:
                     name, score = hoge.split(",")
                     values.append(f"('{log['date']}, '{name}', {score}, '{room}')")
             cur.execute(sql + ",".join(values) + ";")
