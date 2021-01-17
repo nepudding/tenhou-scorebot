@@ -65,6 +65,7 @@ def handle_message(event):
             TextSendMessage("にゃにゃにゃ"),TextSendMessage("にゃにゃにゃ")]
         )
     if hoge.startswith("きろく"):
+        aggregate_score()
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage("きろく")
