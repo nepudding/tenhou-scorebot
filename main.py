@@ -38,7 +38,7 @@ def get_connection():
 def get_score(room):
     with get_connection() as conn:
         with conn.cursor(cursor_factory=DictCursor) as cur:
-            cur.execute(f'SELECT * FROM scores WHERE room_id = {room}')
+            cur.execute(f"SELECT * FROM scores WHERE room_id = '{room}'")
             out = cur.fetchall()
             cur.close()
             conn.close()
