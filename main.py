@@ -90,9 +90,10 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text="にゃ〜ん")
         )
-    if hoge.startswith("しゅうけい"):
-        _, day, room = hoge.split()
-        res = set_score(day, room)
+    if hoge.startswith("こうしん"):
+        _, room = hoge.split()
+        date = "{:%Y%m%d}".format(datetime.now(JST))
+        res = set_score(date, room)
         TextSendMessage(text=res)
 
 
