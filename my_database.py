@@ -16,14 +16,14 @@ def get_connection():
 
 def get_score(room):
     sql = f"SELECT * FROM scores ORDER BY date WHERE room_id = '{room}'"
-    sql += "ORDER BY date"
+    sql += "ORDER BY date,id"
     with get_connection() as conn:
         with conn.cursor(cursor_factory=DictCursor) as cur:
             cur.execute(sql)
             out = cur.fetchall()
             return out
 
-def set_score(day, room):
+def update_score(day, room):
     logs = scraping.get_log(day, room)
     with get_connection() as conn:
         with conn.cursor() as cur:

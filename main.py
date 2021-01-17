@@ -11,7 +11,6 @@ from linebot.models import (
 )
 
 import os
-import re
 
 import my_database
 
@@ -60,7 +59,6 @@ def handle_message(event):
         )
     if hoge.startswith("こうしん"):
         _, date, room = hoge.split()
-        # date = "{:%Y%m%d}".format(datetime.now(JST))
         res = my_database.set_score(date, room)
         TextSendMessage(text=res)
 
