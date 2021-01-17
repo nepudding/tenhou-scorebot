@@ -16,7 +16,7 @@ import re
 import psycopg2
 from psycopg2.extras import DictCursor
 
-import scraping
+import my_database
 
 from datetime import datetime, timedelta, timezone
 
@@ -24,40 +24,11 @@ app = Flask(__name__)
 
 YOUR_CHANNEL_ACCESS_TOKEN = os.getenv('YOUR_CHANNEL_ACCESS_TOKEN', None)
 YOUR_CHANNEL_SECRET = os.getenv('YOUR_CHANNEL_SECRET', None)
-DATABASE_URL = os.environ.get('DATABASE_URL')
 
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
 JST = timezone(timedelta(hours=+9), 'JST')
-
-def get_connection():
-    dsn = os.environ.get('DATABASE_URL')
-    return psycopg2.connect(dsn)
-
-def get_score(room):
-    sql = f"SELECT * FROM scores ORDER BY date WHERE room_id = '{room}'"
-    sql += "ORDER BY date"
-    with get_connection() as conn:
-        with conn.cursor(cursor_factory=DictCursor) as cur:
-            cur.execute(sql)
-            out = cur.fetchall()
-            return out
-
-def set_score(day, room):
-    logs = scraping.get_log(day, room)
-    with get_connection() as conn:
-        with conn.cursor() as cur:
-            cur.execute(f"DELETE FROM scores WHERE date BETWEEN '{day}' AND '{day} 23:59:59' AND room_id = '{room}';")
-            sql = "INSERT INTO scores (date, id, user_name, rank, score, room_id) VALUES "
-            values = []
-            for num in range(len(logs)):
-                log = logs[num]
-                for i in range(4):
-                    name, score = log['score'][i].split(",")
-                    values.append(f"('{log['date']}', {num}, '{name}', {i+1}, {score}, '{room}')")
-            cur.execute(sql + ",".join(values) + ";")
-            return "OK"
 
 @app.route('/')
 def hello_world():
@@ -91,9 +62,9 @@ def handle_message(event):
             TextSendMessage(text="にゃ〜ん")
         )
     if hoge.startswith("こうしん"):
-        _, room = hoge.split()
-        date = "{:%Y%m%d}".format(datetime.now(JST))
-        res = set_score(date, room)
+        _, date, room = hoge.split()
+        # date = "{:%Y%m%d}".format(datetime.now(JST))
+        res = my_database.set_score(date, room)
         TextSendMessage(text=res)
 
 
