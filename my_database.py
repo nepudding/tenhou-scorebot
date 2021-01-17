@@ -20,7 +20,7 @@ def get_score(room):
     with get_connection() as conn:
         with conn.cursor(cursor_factory=DictCursor) as cur:
             cur.execute(sql)
-            ans = list(map(dictcur.fetchall()))
+            ans = list(map(dict,cur.fetchall()))
             return ans
 
 def update_score(day, room):
