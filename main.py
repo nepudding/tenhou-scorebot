@@ -67,7 +67,8 @@ def handle_message(event):
     if hoge.startswith("こうしん"):
         _, date, room = hoge.split()
         sql = "SELECT room_id FROM tournaments WHERE name = '{room}'"
-        room = my_database.sql_requests(sql)[0][0]
+        room = my_database.sql_requests(sql)
+        print(room)
         res = my_database.update_score(date, room)
         line_bot_api.reply_message(
             event.reply_token,
