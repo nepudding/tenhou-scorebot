@@ -23,7 +23,8 @@ def sql_requests(sql):
 
 def current_tournament():
     sql = "SELECT room_id FROM tournaments ORDER BY start_at desc limit 1;"
-    return sql_requests(sql)
+    ans = sql_requests(sql)
+    return ans[0]["room_id"]
 
 def get_user():
     sql = "SELECT * FROM nickname;"

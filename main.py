@@ -64,7 +64,7 @@ def handle_message(event):
             TextSendMessage("にゃ〜ん")
         )
     if hoge.startswith("せいせき"):
-        ct = my_database.current_tournament()[0]
+        ct = my_database.current_tournament()
         print("HOGE",ct)
         score = my_database.get_score_sum(ct)
         print(score)
