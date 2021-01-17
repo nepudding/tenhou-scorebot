@@ -50,7 +50,8 @@ def callback():
 
 def aggregate_score():
     sql = my_database.get_score("C1077")
-    return sql
+    for i in sql:
+        print(i)
 
 
 
