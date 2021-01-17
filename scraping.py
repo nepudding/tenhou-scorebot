@@ -27,7 +27,7 @@ def get_log(day, ROOM):
         contents = reader(f)
         out = []
         for line in contents.readlines():
-            if line[:5] != ROOM:
+            if not line.startswith(ROOM):
                 continue
             _, time, _, score = re.split(r"\ \|\ ",line[:-2])
             hoge = {}
@@ -55,5 +55,5 @@ def download_file(url, name):
         return -1
 
 if __name__ == "__main__":
-    day = input()
-    print(get_log(day,"C1077"))
+    day, room = input().split()
+    print(get_log(day,room))

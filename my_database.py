@@ -14,6 +14,14 @@ def get_connection():
     dsn = os.environ.get('DATABASE_URL')
     return psycopg2.connect(dsn)
 
+def get_user(room):
+    sql = f"SELECT DISTINCT user_name FROM scores WHERE room_id = '{ROOM}';"
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(sql)
+            ans = list(cur.fetchall())
+            return ans  
+
 def get_score(room):
     sql = f"SELECT * FROM scores WHERE room_id = '{room}'"
     sql += "ORDER BY date,id"
@@ -22,6 +30,9 @@ def get_score(room):
             cur.execute(sql)
             ans = list(map(dict,cur.fetchall()))
             return ans
+
+def set_user(tenhou, nickname):
+    sql = f"INSERT INTO nickname"
 
 def update_score(day, room):
     logs = scraping.get_log(day, room)

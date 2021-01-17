@@ -53,8 +53,6 @@ def aggregate_score():
     for i in sql:
         print(i)
 
-
-
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     hoge = event.message.text
