@@ -13,8 +13,8 @@ from linebot.models import (
 import os
 import re
 
-# import psycopg2
-# import psycopg2.extras
+import psycopg2
+import psycopg2.extras
 
 import scraping
 
@@ -30,6 +30,18 @@ line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
 JST = timezone(timedelta(hours=+9), 'JST')
+
+def get_connection():
+    dsn = os.environ.get('DATABASE_URL')
+    return psycopg2.connect(dsn)
+
+def set_score(day, room):
+    conn = get_connection()
+    cur = conn.cursor()
+    out = cur.execute('SELECT * FROM scores')
+    cur.close()
+    conn.close()
+    return out
 
 @app.route('/')
 def hello_world():
@@ -60,7 +72,7 @@ def handle_message(event):
     if re.match(r'にゃーん*', hoge):        
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=str(datetime.now(JST)))
+            TextSendMessage(text=set_score('20210116','C1077')))
         )
     else:
         line_bot_api.reply_message(

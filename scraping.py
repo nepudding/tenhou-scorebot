@@ -27,15 +27,15 @@ def get_log(day, ROOM):
         contents = reader(f)
         out = []
         for line in contents.readlines():
-            if not re.match(rf"{ROOM}*",line):
+            if line[:5] != ROOM:
                 continue
             _, time, _, score = re.split(r"\ \|\ ",line[:-2])
             hoge = {}
-            hoge["date"] = day+"".join(time.split(":"))
-            scores = {}
+            hoge["date"] = f"{day} {time}"
+            scores = []
             for i in score.split():
                 name, point = i[:-1].split("(")
-                scores[name] = float(point)
+                scores.append(f"{name}, {point}")
             hoge["score"] = scores
             out.append(hoge)
         return out
