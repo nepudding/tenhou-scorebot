@@ -36,15 +36,26 @@ def get_connection():
     return psycopg2.connect(dsn)
 
 def get_score(room):
+    sql = f"SELECT * FROM scores ORDER BY date WHERE room_id = '{room}'"
+    sql += "ORDER BY date"
     with get_connection() as conn:
         with conn.cursor(cursor_factory=DictCursor) as cur:
-            cur.execute(f"SELECT * FROM scores WHERE room_id = '{room}'")
+            cur.execute(sql)
             out = cur.fetchall()
-            print(out)
             return out
 
 def set_score(day, room):
-    return
+    logs = scraping.get_log(day, room)
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(f"DELETE FROM scores WHERE date BETWEEN '{day}' AND '{day} 23:59:59' AND room_id = '{room}'")
+            sql = "INSERT INTO scores (date, user_name, rank, score, room_id) VALUES "
+            values = []
+            for log in logs:
+                for name, score in logs[score].split(","):
+                    values.append(f"('{log['date']}, '{name}', {score}, '{room}')")
+            cur.execute(sql + ",".join(values) + ";")
+            return "OK"
 
 @app.route('/')
 def hello_world():
@@ -72,17 +83,16 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     hoge = event.message.text
-    if re.match(r'にゃーん', hoge):
-        print("にゃーん",get_score('C1077'))        
+    if hoge.startswith("にゃーん"):
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=str(datetime.now(JST)))
+            TextSendMessage(text="にゃ〜ん")
         )
-    else:
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="にょ〜ん")
-        )
+    if hoge.startswith("しゅうけい"):
+        _, day, room = hoge.split()
+        res = set_score(day, room)
+        TextSendMessage(text=res)
+
 
 if __name__ == "__main__":
     print("にゃーん")

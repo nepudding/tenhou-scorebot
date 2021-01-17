@@ -5,4 +5,11 @@
 未定
 
 # メモ欄
+```
 DELETE FROM scores WHERE date BETWEEN '20210116' AND '20210116 24:00';
+date timestamp
+room_id char(5)
+user_name varchar(16)
+rank id
+score numric
+```
