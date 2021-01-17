@@ -49,7 +49,7 @@ def callback():
     return 'OK'
 
 def aggregate_score():
-    sql = my_database.get_score()
+    sql = my_database.get_score("C1077")
     return str(sql)
 
 
