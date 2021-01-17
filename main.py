@@ -50,6 +50,8 @@ def callback():
 
 def aggregate_score():
     sql = my_database.get_score()
+    return str(sql)
+
 
 
 @handler.add(MessageEvent, message=TextMessage)
@@ -59,6 +61,11 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="にゃ〜ん")
+        )
+    if hoge.startswith("きろく"):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=str(aggregate_score()))
         )
     if hoge.startswith("こうしん"):
         _, date, room = hoge.split()
