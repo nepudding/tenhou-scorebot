@@ -18,6 +18,8 @@ import psycopg2.extras
 
 import scraping
 
+from datetime import datetime, timedelta, timezone
+
 app = Flask(__name__)
 
 YOUR_CHANNEL_ACCESS_TOKEN = os.getenv('YOUR_CHANNEL_ACCESS_TOKEN', None)
@@ -26,6 +28,8 @@ DATABASE_URL = os.environ.get('DATABASE_URL')
 
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
+
+JST = timezone(timedelta(hours=+9), 'JST')
 
 @app.route('/')
 def hello_world():
@@ -63,7 +67,7 @@ def handle_message(event):
     if re.match(r'にゃーん*', hoge):        
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="にゃ〜ん")
+            TextSendMessage(text=str(datetime.now(JST)))
         )
     else:
         line_bot_api.reply_message(
