@@ -49,12 +49,13 @@ def set_score(day, room):
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(f"DELETE FROM scores WHERE date BETWEEN '{day}' AND '{day} 23:59:59' AND room_id = '{room}';")
-            sql = "INSERT INTO scores (date, user_name, rank, score, room_id) VALUES "
+            sql = "INSERT INTO scores (date, id, user_name, rank, score, room_id) VALUES "
             values = []
-            for log in logs:
+            for num in len(logs):
+                log = logs[num]
                 for i in range(4):
                     name, score = log['score'][i].split(",")
-                    values.append(f"('{log['date']}', '{name}', {i+1}, {score}, '{room}')")
+                    values.append(f"('{log['date']}', {num}, '{name}', {i+1}, {score}, '{room}')")
             cur.execute(sql + ",".join(values) + ";")
             return "OK"
 
