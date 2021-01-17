@@ -70,8 +70,8 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     hoge = event.message.text
-    if re.match(r'にゃーん*', hoge):
-        print(set_score('20210116','C1077'))        
+    if re.match(r'にゃーん', hoge):
+        print("にゃーん",set_score('20210116','C1077'))        
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=str(datetime.now(JST)))
