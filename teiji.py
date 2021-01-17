@@ -5,4 +5,5 @@ JST = timezone(timedelta(hours=+9), 'JST')
 
 if __name__ == "__main__":
     yesterday = datetime.now(JST) - timedelta(days=1)
-    my_database.update_score("{:%Y%m%d}".format(yesterday),"C1077")
+    room = my_database.current_tournament()
+    my_database.update_score("{:%Y%m%d}".format(yesterday),room)

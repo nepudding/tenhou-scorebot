@@ -48,13 +48,6 @@ def callback():
 
     return 'OK'
 
-def aggregate_score():
-    sql = my_database.get_score("C1077")
-    for i in sql:
-        print(i)
-
-
-
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     hoge = event.message.text
@@ -65,7 +58,6 @@ def handle_message(event):
         )
     if hoge.startswith("せいせき"):
         ct = my_database.current_tournament()
-        print("HOGE",ct)
         score = my_database.get_score_sum(ct)
         print(score)
         line_bot_api.reply_message(
@@ -74,6 +66,8 @@ def handle_message(event):
         )
     if hoge.startswith("こうしん"):
         _, date, room = hoge.split()
+        sql = "SELECT room_id FROM tournaments WHERE name = '{room}'"
+        room = my_database.sql_requests(sql)[0][0]
         res = my_database.update_score(date, room)
         line_bot_api.reply_message(
             event.reply_token,

@@ -24,12 +24,7 @@ def sql_requests(sql):
 def current_tournament():
     sql = "SELECT room_id FROM tournaments ORDER BY start_at desc limit 1;"
     ans = sql_requests(sql)
-    print("FUGA",ans)
     return ans[0][0]
-
-def get_user():
-    sql = "SELECT * FROM nickname;"
-    return sql_requests(sql)
 
 def get_score_sum(room):
     sql = f"SELECT B.nickname, sum(A.score) FROM scores A INNER JOIN nickname B ON A.user_name = B.tenhou_name WHERE A.room_id = '{room}' GROUP BY B.nickname ORDER BY sum DESC;"
