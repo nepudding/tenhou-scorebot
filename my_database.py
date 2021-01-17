@@ -20,11 +20,8 @@ def get_score(room):
     with get_connection() as conn:
         with conn.cursor(cursor_factory=DictCursor) as cur:
             cur.execute(sql)
-            ans = cur.fetchall()
-            ans1 = []
-            for row in ans:
-                ans1.append(dict(row))
-            return ans1
+            ans = list(map(dictcur.fetchall()))
+            return ans
 
 def update_score(day, room):
     logs = scraping.get_log(day, room)
