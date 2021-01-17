@@ -52,9 +52,9 @@ def set_score(day, room):
             sql = "INSERT INTO scores (date, user_name, rank, score, room_id) VALUES "
             values = []
             for log in logs:
-                for hoge in log['score']:
-                    name, score = hoge.split(",")
-                    values.append(f"('{log['date']}, '{name}', {score}, '{room}')")
+                for i in range(4):
+                    name, score = log['score'][i].split(",")
+                    values.append(f"('{log['date']}', '{name}', {i+1}, {score}, '{room}')")
             cur.execute(sql + ",".join(values) + ";")
             return "OK"
 
