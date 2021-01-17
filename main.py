@@ -72,7 +72,7 @@ def handle_message(event):
     if re.match(r'にゃーん*', hoge):        
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=set_score('20210116','C1077')))
+            TextSendMessage(text=set_score('20210116','C1077'))
         )
     else:
         line_bot_api.reply_message(
