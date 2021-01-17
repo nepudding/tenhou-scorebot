@@ -64,11 +64,13 @@ def handle_message(event):
             TextSendMessage("にゃにゃにゃ"),TextSendMessage("にゃにゃにゃ")]
         )
     if hoge.startswith("きろく"):
-        data = map(str, aggregate_score())
-        print(data)
+        data = aggregate_score()
+        texts = []
+        for i in data:
+            texts.append(TextSendMessage(str(i)))
         line_bot_api.reply_message(
             event.reply_token,
-            map(TextSendMessage, data)
+            texts
         )
     if hoge.startswith("こうしん"):
         _, date, room = hoge.split()
