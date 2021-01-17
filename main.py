@@ -38,7 +38,8 @@ def get_connection():
 def set_score(day, room):
     conn = get_connection()
     cur = conn.cursor()
-    out = cur.execute('SELECT * FROM scores')
+    cur.execute('SELECT * FROM scores')
+    out = cur.fetchall()
     cur.close()
     conn.close()
     return out
