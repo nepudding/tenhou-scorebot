@@ -63,8 +63,9 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage("にゃ〜ん")
         )
-    if hoge.startswith("成績"):
+    if hoge.startswith("せいせき"):
         ct = my_database.current_tournament()[0]
+        print("HOGE",ct)
         score = my_database.get_score_sum(ct)
         print(score)
         line_bot_api.reply_message(
