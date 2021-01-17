@@ -24,7 +24,8 @@ def sql_requests(sql):
 def current_tournament():
     sql = "SELECT room_id FROM tournaments ORDER BY start_at desc limit 1;"
     ans = sql_requests(sql)
-    return ans[0]["room_id"]
+    print("FUGA",ans)
+    return ans[0][0]
 
 def get_user():
     sql = "SELECT * FROM nickname;"
