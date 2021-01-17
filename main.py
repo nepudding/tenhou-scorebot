@@ -53,20 +53,23 @@ def aggregate_score():
     for i in sql:
         print(i)
 
+
+
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     hoge = event.message.text
     if hoge.startswith("にゃーん"):
         line_bot_api.reply_message(
             event.reply_token,
-            [TextSendMessage("にゃ〜ん"),TextSendMessage("にゃ〜ん"),
-            TextSendMessage("にゃにゃにゃ"),TextSendMessage("にゃにゃにゃ")]
+            TextSendMessage("にゃ〜ん")
         )
-    if hoge.startswith("きろく"):
-        aggregate_score()
+    if hoge.startswith("成績"):
+        ct = my_database.current_tournament()[0]
+        score = my_database.get_score_sum(ct)
+        print(score)
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage("きろく")
+            TextSendMessage("\n".join(map(str,score)))
         )
     if hoge.startswith("こうしん"):
         _, date, room = hoge.split()

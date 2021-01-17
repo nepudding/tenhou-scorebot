@@ -14,25 +14,28 @@ def get_connection():
     dsn = os.environ.get('DATABASE_URL')
     return psycopg2.connect(dsn)
 
-def get_user(room):
-    sql = f"SELECT DISTINCT user_name FROM scores WHERE room_id = '{ROOM}';"
+def sql_requests(sql):
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(sql)
             ans = list(cur.fetchall())
-            return ans  
-
-def get_score(room):
-    sql = f"SELECT * FROM scores WHERE room_id = '{room}'"
-    sql += "ORDER BY date,id"
-    with get_connection() as conn:
-        with conn.cursor(cursor_factory=DictCursor) as cur:
-            cur.execute(sql)
-            ans = list(map(dict,cur.fetchall()))
             return ans
 
+def current_tournament():
+    sql = "SELECT room_id FROM tournaments ORDER BY start_at desc limit 1;"
+    return sql_requests(sql)
+
+def get_user():
+    sql = "SELECT * FROM nickname;"
+    return sql_requests(sql)
+
+def get_score_sum(room):
+    sql = f"SELECT B.nickname, sum(A.score) FROM scores A INNER JOIN nickname B ON A.user_name = B.tenhou_name WHERE A.room_id = '{room}' GROUP BY B.nickname ORDER BY sum DESC;"
+    return sql_requests(sql)
+
 def set_user(tenhou, nickname):
-    sql = f"INSERT INTO nickname"
+    sql = f"INSERT INTO nickname (tenhou_name, nickname) VALUES({tenhou}, {nickname});"
+    sql_requests(sql)
 
 def update_score(day, room):
     logs = scraping.get_log(day, room)
