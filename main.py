@@ -13,9 +13,6 @@ from linebot.models import (
 import os
 import re
 
-import psycopg2
-from psycopg2.extras import DictCursor
-
 import my_database
 
 from datetime import datetime, timedelta, timezone

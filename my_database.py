@@ -1,5 +1,8 @@
 import os
 from datetime import datetime, timedelta, timezone
+import re
+import psycopg2
+from psycopg2.extras import DictCursor
 
 import scraping
 
