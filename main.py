@@ -40,6 +40,7 @@ def get_score(room):
         with conn.cursor(cursor_factory=DictCursor) as cur:
             cur.execute(f"SELECT * FROM scores WHERE room_id = '{room}'")
             out = cur.fetchall()
+            print(out)
             cur.close()
             conn.close()
             return out
