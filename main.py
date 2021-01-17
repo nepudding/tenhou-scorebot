@@ -63,10 +63,12 @@ def handle_message(event):
             TextSendMessage(text="にゃ〜ん")
         )
     if hoge.startswith("きろく"):
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=str(aggregate_score()))
-        )
+        data = aggregate_score()
+        for i in data:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=str(i))
+            )
     if hoge.startswith("こうしん"):
         _, date, room = hoge.split()
         res = my_database.update_score(date, room)
