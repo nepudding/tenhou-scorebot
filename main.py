@@ -14,7 +14,7 @@ import os
 import re
 
 import psycopg2
-import psycopg2.extras
+from psycopg2.extras import DictCursor
 
 import scraping
 
@@ -35,14 +35,17 @@ def get_connection():
     dsn = os.environ.get('DATABASE_URL')
     return psycopg2.connect(dsn)
 
+def get_score(room):
+    with get_connection() as conn:
+        with conn.cursor(cursor_factory=DictCursor) as cur:
+            cur.execute(f'SELECT * FROM scores WHERE room_id = {room}')
+            out = cur.fetchall()
+            cur.close()
+            conn.close()
+            return out
+
 def set_score(day, room):
-    conn = get_connection()
-    cur = conn.cursor()
-    cur.execute('SELECT * FROM scores')
-    out = cur.fetchall()
-    cur.close()
-    conn.close()
-    return out
+    return
 
 @app.route('/')
 def hello_world():
@@ -71,7 +74,7 @@ def callback():
 def handle_message(event):
     hoge = event.message.text
     if re.match(r'にゃーん', hoge):
-        print("にゃーん",set_score('20210116','C1077'))        
+        print("にゃーん",get_score('C1077'))        
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=str(datetime.now(JST)))
