@@ -41,8 +41,6 @@ def get_score(room):
             cur.execute(f"SELECT * FROM scores WHERE room_id = '{room}'")
             out = cur.fetchall()
             print(out)
-            cur.close()
-            conn.close()
             return out
 
 def set_score(day, room):
