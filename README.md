@@ -12,6 +12,7 @@ date timestamp,
 id int,
 user_name varchar(16),
 rank int,
-score numeric);
+score numeric,
+room_id char(5));
 
 ```
