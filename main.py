@@ -73,6 +73,12 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=res)
         )
+    
+    if hoge.startswith("ゆーざー"):
+        _, nickname, id = hoge.split()
+        
+
+
 
 
 if __name__ == "__main__":
