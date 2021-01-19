@@ -12,7 +12,7 @@ from linebot.models import (
 
 import os
 
-import my_database, Align
+import my_database
 
 from datetime import datetime, timedelta, timezone
 
@@ -62,7 +62,7 @@ def handle_message(event):
         text = f"{ct}"
         for r in score:
             text += "\n"
-            text += Align.left(16,r[0],fill="_") + "：" + str(r[1]) 
+            text += r[0] + "：" + str(r[1]) 
         print(text)
         line_bot_api.reply_message(
             event.reply_token,
