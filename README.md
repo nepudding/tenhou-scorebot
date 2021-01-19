@@ -16,14 +16,3 @@
 
 ```にゃーん```　にゃ〜ん
 
-# メモ欄
-```
-scores(
-    date timestamp
-    id int
-    user_name varchar(16)
-    rank int
-    score numeric
-    room_id char(5)
-)
-```
