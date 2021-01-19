@@ -14,12 +14,13 @@ def get_connection():
     dsn = os.environ.get('DATABASE_URL')
     return psycopg2.connect(dsn)
 
-def sql_requests(sql):
+def sql_requests(sql, res=True):
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(sql)
-            ans = list(cur.fetchall())
-            return ans
+            if res:
+                ans = list(cur.fetchall())
+                return ans
 
 def current_tournament():
     sql = "SELECT room_id FROM tournaments ORDER BY start_at desc limit 1;"
@@ -34,7 +35,7 @@ def set_user(tenhou, nickname):
     sql = f"UPDATE nickname SET nickname='{nickname}' WHERE tenhou_name='{tenhou}';" \
           f"INSERT INTO nickname (nickname, tenhou_name) SELECT '{nickname}', '{tenhou}'" \
           f"WHERE NOT EXISTS (SELECT tenhou_name FROM nickname WHERE tenhou_name='{tenhou}')"
-    sql_requests(sql)
+    sql_requests(sql, res=False)
 
 def update_score(day, room):
     logs = scraping.get_log(day, room)
