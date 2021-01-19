@@ -76,7 +76,8 @@ def handle_message(event):
     
     if hoge.startswith("ゆーざー"):
         _, nickname, id = hoge.split()
-        
+        my_database.set_user(nickname, id)
+
 
 
 
