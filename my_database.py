@@ -31,7 +31,7 @@ def get_score_sum(room):
     sql = f"SELECT B.nickname, sum(A.score) FROM scores A INNER JOIN nickname B ON A.user_name = B.tenhou_name WHERE A.room_id = '{room}' GROUP BY B.nickname ORDER BY sum DESC;"
     return sql_requests(sql)
 
-def set_user(tenhou, nickname):
+def set_user(nickname, tenhou):
     sql = f"UPDATE nickname SET nickname='{nickname}' WHERE tenhou_name='{tenhou}';" \
           f"INSERT INTO nickname (nickname, tenhou_name) SELECT '{nickname}', '{tenhou}'" \
           f"WHERE NOT EXISTS (SELECT tenhou_name FROM nickname WHERE tenhou_name='{tenhou}')"
