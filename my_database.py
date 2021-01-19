@@ -31,8 +31,8 @@ def get_score_sum(room):
     return sql_requests(sql)
 
 def set_user(tenhou, nickname):
-    sql = f"UPDATE nickname SET nickname={nickname} WHERE tenhou_name={tenhou};" +
-          f"INSERT INTO nickname (nickname, tenhou_name) VALUES ({nickname}, {tenhou})" +
+    sql = f"UPDATE nickname SET nickname={nickname} WHERE tenhou_name={tenhou};" \
+          f"INSERT INTO nickname (nickname, tenhou_name) VALUES ({nickname}, {tenhou})" \
           f"WHERE NOT EXISTS (SELECT tenhou_name FROM nickname WHERE tenhou_name={tenhou})"
     sql_requests(sql)
 
