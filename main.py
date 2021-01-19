@@ -90,10 +90,6 @@ def handle_message(event):
         _, nickname, id = hoge.split()
         my_database.set_user(nickname, id)
 
-
-
-
-
 if __name__ == "__main__":
     print("にゃーん")
     port = int(os.getenv("PORT","80"))
