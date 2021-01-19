@@ -77,7 +77,7 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=res)
         )
-    if hoge.startswith("たいかい"):
+    if hoge.startswith("たいかいとうろく"):
         _, name, room, url = hoge.split()
         my_database.set_tournament(name, room, url)
     
