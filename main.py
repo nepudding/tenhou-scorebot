@@ -59,11 +59,11 @@ def handle_message(event):
     if hoge.startswith("せいせき"):
         ct = my_database.current_tournament()
         score = my_database.get_score_sum(ct)
-        print(score)
         text = f"{ct}"
         for r in score:
             text += "\n"
             text += Align.left(16,r[0]) + "：" + str(r[1]) 
+        print(text)
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text)
