@@ -29,7 +29,7 @@ def current_tournament():
 
 def set_tournament(name,room,url):
     time = "{:%Y%m%d %H:%M:%S}".format(datetime.now(JST))
-    sql = f"UPDATE tournaments SET name='{name}' start_at = '{time}' url = '{url}' WHERE room_id='{room}';" \
+    sql = f"UPDATE tournaments SET name='{name}', start_at = '{time}', url = '{url}' WHERE room_id='{room}';" \
           f"INSERT INTO tournaments (name,  room_id, start_at, url) SELECT '{name}', '{room}', '{time}', '{url}'" \
           f"WHERE NOT EXISTS (SELECT room_id FROM tournaments WHERE room_id='{room}')"
     sql_requests(sql,res=False)
