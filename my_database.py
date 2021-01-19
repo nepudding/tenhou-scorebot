@@ -25,7 +25,7 @@ def sql_requests(sql, res=True):
 def current_tournament():
     sql = "SELECT room_id, url FROM tournaments ORDER BY start_at desc limit 1;"
     ans = sql_requests(sql)
-    return ans[0]['room_id'], ans[0]['url']
+    return ans[0][0], ans[0][1]
 
 def set_tournament(name,room,url):
     time = "{:%Y%m%d %H:%M:%S}".format(datetime.now(JST))
