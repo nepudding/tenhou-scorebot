@@ -12,7 +12,7 @@ from linebot.models import (
 
 import os
 
-import my_database
+import my_database, Align
 
 from datetime import datetime, timedelta, timezone
 
@@ -65,13 +65,17 @@ def handle_message(event):
             TextSendMessage("\n".join(map(str,score)))
         )
     if hoge.startswith("こうしん"):
-        _, date, room = hoge.split()
-        sql = f"SELECT room_id FROM tournaments WHERE name='{room}'"
+        _, date, taikai = hoge.split()
+        sql = f"SELECT room_id FROM tournaments WHERE name='{taikai}'"
         room = my_database.sql_requests(sql)[0][0]
         res = my_database.update_score(date, room)
+        text = f"{taikai}"
+        for s in res:
+            text += "\n"
+            text += Align.left(16, s[0]) + "：" + str(s[1])
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=res)
+            TextSendMessage(text=text)
         )
     
     if hoge.startswith("ゆーざー"):
