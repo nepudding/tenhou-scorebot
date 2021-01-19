@@ -62,7 +62,7 @@ def handle_message(event):
         text = f"{ct}"
         for r in score:
             text += "\n"
-            text += Align.left(16,r[0]) + "：" + str(r[1]) 
+            text += Align.left(16,r[0],fill="_") + "：" + str(r[1]) 
         print(text)
         line_bot_api.reply_message(
             event.reply_token,
