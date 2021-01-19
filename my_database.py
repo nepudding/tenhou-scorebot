@@ -27,6 +27,14 @@ def current_tournament():
     ans = sql_requests(sql)
     return ans[0]['room_id'], ans[0]['url']
 
+def set_tournament(name,room,url):
+    time = "{:%Y%m%d %H:%M:%S}".format(datetime.now(JST))
+    sql = f"UPDATE tournaments SET name='{name}' start_at = '{time}' url = '{url}' WHERE room_id='{room}';" \
+          f"INSERT INTO tournaments (name,  room_id, start_at, url) SELECT '{name}', '{room}', '{time}', '{url}'" \
+          f"WHERE NOT EXISTS (SELECT room_id FROM tournaments WHERE room_id='{room}')"
+    sql_requests(sql,res=False)
+    return f"大会名：{name}を登録しました"
+
 def get_score_sum(room):
     sql = f"SELECT B.nickname, sum(A.score) FROM scores A INNER JOIN nickname B ON A.user_name = B.tenhou_name WHERE A.room_id = '{room}' GROUP BY B.nickname ORDER BY sum DESC;"
     return sql_requests(sql)
