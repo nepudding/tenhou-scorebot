@@ -23,9 +23,9 @@ def sql_requests(sql, res=True):
                 return ans
 
 def current_tournament():
-    sql = "SELECT room_id FROM tournaments ORDER BY start_at desc limit 1;"
+    sql = "SELECT room_id, url FROM tournaments ORDER BY start_at desc limit 1;"
     ans = sql_requests(sql)
-    return ans[0][0]
+    return ans[0]['room_id'], ans[0]['url']
 
 def get_score_sum(room):
     sql = f"SELECT B.nickname, sum(A.score) FROM scores A INNER JOIN nickname B ON A.user_name = B.tenhou_name WHERE A.room_id = '{room}' GROUP BY B.nickname ORDER BY sum DESC;"

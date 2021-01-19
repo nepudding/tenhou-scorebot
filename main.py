@@ -57,9 +57,9 @@ def handle_message(event):
             TextSendMessage("にゃ〜ん")
         )
     if hoge.startswith("せいせき"):
-        ct = my_database.current_tournament()
-        score = my_database.get_score_sum(ct)
-        text = f"{ct}"
+        room_id, _ = my_database.current_tournament()
+        score = my_database.get_score_sum(room_id)
+        text = f"{room_id}"
         for r in score:
             text += "\n"
             text += r[0] + "：" + str(r[1]) 
@@ -69,14 +69,16 @@ def handle_message(event):
             TextSendMessage(text)
         )
     if hoge.startswith("こうしん"):
-        _, date, room = hoge.split()
-        sql = f"SELECT room_id FROM tournaments WHERE name='{room}'"
+        _, date, taikai = hoge.split()
+        sql = f"SELECT room_id FROM tournaments WHERE name='{taikai}'"
         room = my_database.sql_requests(sql)[0][0]
         res = my_database.update_score(date, room)
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=res)
         )
+    if hoge.startswith("たいかい"):
+        _, date, room, url = hoge.split()
     
     if hoge.startswith("ゆーざー"):
         _, nickname, id = hoge.split()
