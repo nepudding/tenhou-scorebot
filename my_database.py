@@ -44,7 +44,7 @@ def init_user():
     sql_requests(sql, res=False)
 
 def update_score(day, room):
-    def init_user()
+    init_user()
     logs = scraping.get_log(day, room)
     with get_connection() as conn:
         with conn.cursor() as cur:
