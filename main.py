@@ -59,9 +59,9 @@ def handle_message(event):
     if hoge.startswith("-せいせき"):
         room_id, _, room_name = my_database.current_tournament()
 
-        today = datetime.now(JST).date()
+        today = datetime.now(JST)
         my_database.update_score("{:%Y%m%d}".format(today), room_id)
-        if today.time() < time(1,0):
+        if today.time() < time(1,0,0):
             my_database.update_score("{:%Y%m%d}".format(today-timedelta(days=1)), room_id)
 
         score = my_database.get_score_sum(room_id)
