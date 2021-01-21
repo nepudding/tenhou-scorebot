@@ -23,9 +23,9 @@ def sql_requests(sql, res=True):
                 return ans
 
 def current_tournament():
-    sql = "SELECT room_id, url FROM tournaments ORDER BY start_at desc limit 1;"
+    sql = "SELECT room_id, url, name FROM tournaments ORDER BY start_at desc limit 1;"
     ans = sql_requests(sql)
-    return ans[0][0], ans[0][1]
+    return ans[0][0], ans[0][1], ans[0][2]
 
 def set_tournament(name,room,url):
     time = "{:%Y%m%d %H:%M:%S}".format(datetime.now(JST))
@@ -54,15 +54,17 @@ def init_user():
 def update_score(day, room):
     init_user()
     logs = scraping.get_log(day, room)
+    values = []
+    for num in range(len(logs)):
+        log = logs[num]
+        for i in range(4):
+            name, score = log['score'][i].split(",")
+            values.append(f"('{log['date']}', {num}, '{name}', {i+1}, {score}, '{room}')")
+    if values == []:
+        return f"{day}に対戦がありません"
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(f"DELETE FROM scores WHERE date BETWEEN '{day}' AND '{day} 23:59:59' AND room_id = '{room}';")
             sql = "INSERT INTO scores (date, id, user_name, rank, score, room_id) VALUES "
-            values = []
-            for num in range(len(logs)):
-                log = logs[num]
-                for i in range(4):
-                    name, score = log['score'][i].split(",")
-                    values.append(f"('{log['date']}', {num}, '{name}', {i+1}, {score}, '{room}')")
             cur.execute(sql + ",".join(values) + ";")
             return "OK"

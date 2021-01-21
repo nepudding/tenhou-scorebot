@@ -57,7 +57,7 @@ def handle_message(event):
             TextSendMessage("にゃ〜ん")
         )
     if hoge.startswith("-せいせき"):
-        room_id, _ = my_database.current_tournament()
+        room_id, _, room_name = my_database.current_tournament()
         score = my_database.get_score_sum(room_id)
         text = f"{room_id}"
         for r in score:
