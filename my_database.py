@@ -54,14 +54,14 @@ def init_user():
 def update_score(day, room):
     init_user()
     logs = scraping.get_log(day, room)
+    if len(logs) == 0:
+        return f"{day}に対戦がありません"
     values = []
     for num in range(len(logs)):
         log = logs[num]
         for i in range(4):
             name, score = log['score'][i].split(",")
             values.append(f"('{log['date']}', {num}, '{name}', {i+1}, {score}, '{room}')")
-    if values == []:
-        return f"{day}に対戦がありません"
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(f"DELETE FROM scores WHERE date BETWEEN '{day}' AND '{day} 23:59:59' AND room_id = '{room}';")
