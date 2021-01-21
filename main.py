@@ -14,7 +14,7 @@ import os
 
 import my_database
 
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta, timezone, time
 
 app = Flask(__name__)
 
@@ -58,8 +58,14 @@ def handle_message(event):
         )
     if hoge.startswith("-せいせき"):
         room_id, _, room_name = my_database.current_tournament()
+
+        today = datetime.now(JST).date()
+        my_database.update_score("{:%Y%m%d}".format(today), room)
+        if today.time() < time(1,0):
+            my_database.update_score("{:%Y%m%d}".format(today-timedelta(days=1)), room)
+
         score = my_database.get_score_sum(room_id)
-        text = f"{room_id}"
+        text = f"{room_name}"
         for r in score:
             text += "\n"
             text += r[0] + "：" + str(r[1]) 
