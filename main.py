@@ -83,15 +83,13 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=res)
         )
-"""
-    if hoge.startswith("-たいかいとうろく"):
-        _, name, room, url = hoge.split()
-        text = my_database.set_tournament(name, room, url)
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=text)
-        )
-"""
+#    if hoge.startswith("-たいかいとうろく"):
+#        _, name, room, url = hoge.split()
+#        text = my_database.set_tournament(name, room, url)
+#        line_bot_api.reply_message(
+#            event.reply_token,
+#            TextSendMessage(text=text)
+#        )
     if hoge.startswith("-ゆーざー"):
         _, nickname, id = hoge.split()
         my_database.set_user(nickname, id)
