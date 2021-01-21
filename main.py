@@ -60,9 +60,9 @@ def handle_message(event):
         room_id, _, room_name = my_database.current_tournament()
 
         today = datetime.now(JST).date()
-        my_database.update_score("{:%Y%m%d}".format(today), room)
+        my_database.update_score("{:%Y%m%d}".format(today), room_id)
         if today.time() < time(1,0):
-            my_database.update_score("{:%Y%m%d}".format(today-timedelta(days=1)), room)
+            my_database.update_score("{:%Y%m%d}".format(today-timedelta(days=1)), room_id)
 
         score = my_database.get_score_sum(room_id)
         text = f"{room_name}"
