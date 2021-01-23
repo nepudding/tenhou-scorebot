@@ -78,7 +78,7 @@ def handle_message(event):
             TextSendMessage(text)
         )
     elif command['command'] == "こうしん":
-        if command['args'] != 2:
+        if len(command['args']) != 2:
             line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="usage : -こうしん [date(YYYYmmdd)] [大会名]"))
@@ -101,7 +101,7 @@ def handle_message(event):
 #            TextSendMessage(text=text)
 #        )
     elif command['command'] == "ゆーざー":
-        if command['args'] != 2:
+        if len(command['args']) != 2:
             line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="usage : -ゆーざー [name] [tenhouId]"))
