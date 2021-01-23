@@ -12,7 +12,7 @@ from linebot.models import (
 
 import os
 
-import my_database
+import my_database, parsing
 
 from datetime import datetime, timedelta, timezone, time
 
@@ -51,12 +51,15 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     hoge = event.message.text
-    if hoge.startswith("-にゃーん"):
+    command = parsing.parsing(hoge)
+    if command == None:
+        return
+    elif command['command'] == 'にゃーん':
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage("にゃ〜ん")
         )
-    if hoge.startswith("-せいせき"):
+    elif command['command'] == 'せいせき':
         room_id, _, room_name = my_database.current_tournament()
 
         today = datetime.now(JST)
@@ -74,8 +77,14 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text)
         )
-    if hoge.startswith("-こうしん"):
-        _, date, taikai = hoge.split()
+    elif command['command'] == "こうしん":
+        if command['args'] != 2:
+            line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="usage : -こうしん [date(YYYYmmdd)] [大会名]"))
+            return
+        
+        date, taikai = command['args']
         sql = f"SELECT room_id FROM tournaments WHERE name='{taikai}'"
         room = my_database.sql_requests(sql)[0][0]
         res = my_database.update_score(date, room)
@@ -83,15 +92,21 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=res)
         )
-#    if hoge.startswith("-たいかいとうろく"):
-#        _, name, room, url = hoge.split()
+#    elif command["command"] == "たいかいとうろく":
+        #TODO 引数が足りないときのエラーを書く
+#        name, room, url = command['args']
 #        text = my_database.set_tournament(name, room, url)
 #        line_bot_api.reply_message(
 #            event.reply_token,
 #            TextSendMessage(text=text)
 #        )
-    if hoge.startswith("-ゆーざー"):
-        _, nickname, tenhou_id = hoge.split()
+    elif command['command'] == "ゆーざー":
+        if command['args'] != 2:
+            line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="usage : -ゆーざー [name] [tenhouId]"))
+            return
+        nickname, tenhou_id = command['args']
         my_database.set_user(nickname, tenhou_id)
 
 if __name__ == "__main__":
