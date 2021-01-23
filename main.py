@@ -93,21 +93,28 @@ def handle_message(event):
             TextSendMessage(text=res)
         )
 #    elif command["command"] == "たいかいとうろく":
-        #TODO 引数が足りないときのエラーを書く
+#        if len(command['args']) != 3:
+#            line_bot_api.reply_message(
+#            event.reply_token,
+#            TextSendMessage(text="usage : -たいかいとうろく [name] [roomid] [url]"))
+#            return
 #        name, room, url = command['args']
 #        text = my_database.set_tournament(name, room, url)
 #        line_bot_api.reply_message(
 #            event.reply_token,
-#            TextSendMessage(text=text)
-#        )
+#            TextSendMessage(text=text))
+
     elif command['command'] == "ゆーざー":
         if len(command['args']) != 2:
             line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="usage : -ゆーざー [name] [tenhouId]"))
+                event.reply_token,
+                TextSendMessage(text="usage : -ゆーざー [name] [tenhouId]"))
             return
         nickname, tenhou_id = command['args']
         my_database.set_user(nickname, tenhou_id)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=f"{tenhou_id}を{nickname}さんのアカウントとして記憶しました。"))
 
 if __name__ == "__main__":
     print("にゃーん")
