@@ -48,7 +48,7 @@ def set_user(nickname, tenhou):
 def init_user():
     sql = f"INSERT INTO nickname(nickname, tenhou_name)"\
            "SELECT DISTINCT user_name, user_name FROM scores "\
-           "WHERE NOT EXISTS (SELECT tenhou_name FROM nickname WHERE tenhou_name=nickname); "
+           "WHERE NOT EXISTS (SELECT tenhou_name FROM nickname WHERE tenhou_name=user_name); "
     sql_requests(sql, res=False)
 
 def update_score(day, room):
