@@ -91,8 +91,8 @@ def handle_message(event):
 #            TextSendMessage(text=text)
 #        )
     if hoge.startswith("-ゆーざー"):
-        _, nickname, id = hoge.split()
-        my_database.set_user(nickname, id)
+        _, nickname, tenhou_id = hoge.split()
+        my_database.set_user(nickname, tenhou_id)
 
 if __name__ == "__main__":
     print("にゃーん")
