@@ -10,5 +10,5 @@ def parsing(x):
         if i.startswith('-'):
             option += i[1:]
         else:
-            args += i
+            args.append(i)
     return {'command':command, 'option':option, 'args':args}
