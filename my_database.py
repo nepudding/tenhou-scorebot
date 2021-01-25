@@ -71,17 +71,17 @@ def update_score(day, room):
 
 def get_log(day):
     init_user()
-    sql = f"SELECT * FROM scores WHERE date BETWEEN '20210116' AND '20210116 23:59:59' ORDER BY date, id, rank;"
-    
-    """
-    SELECT s.date,s.id,s.score,s.rank, n.nickname, t.name FROM scores s
-    INNER JOIN nickname n ON s.user_name = n.tenhou_name
-    INNER JOIN tournaments t ON s.room_id = t.room_id
-    WHERE s.date BETWEEN '20210120' AND '20210121'   
-    ORDER BY s.date, s.id, s.rank;
-    """
+    sql = "SELECT s.date,s.id,s.score,s.rank, n.nickname, t.name FROM scores s"\
+          "INNER JOIN nickname n ON s.user_name = n.tenhou_name"\
+          "INNER JOIN tournaments t ON s.room_id = t.room_id"\
+         f"WHERE s.date BETWEEN '{date}' AND '{date} 23:59:59'"
+          "ORDER BY s.date, s.id, s.rank;"
     a =  sql_requests(sql)
     out = []
     for i in range(0, len(a), 4):
+        hoge = "{:%H:%M} ".format(a[i][0])
         for j in range(i,i+4):
-            hoge = {}
+            hoge += f"{a[j][4]} {a[j][2]}, "
+        hoge += a[i][5]
+        out.append(hoge)
+    return out
