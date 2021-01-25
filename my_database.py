@@ -68,3 +68,20 @@ def update_score(day, room):
             sql = "INSERT INTO scores (date, id, user_name, rank, score, room_id) VALUES "
             cur.execute(sql + ",".join(values) + ";")
             return "OK"
+
+def get_log(day):
+    init_user()
+    sql = f"SELECT * FROM scores WHERE date BETWEEN '20210116' AND '20210116 23:59:59' ORDER BY date, id, rank;"
+    
+    """
+    SELECT s.date,s.id,s.score,s.rank, n.nickname, t.name FROM scores s
+    INNER JOIN nickname n ON s.user_name = n.tenhou_name
+    INNER JOIN tournaments t ON s.room_id = t.room_id
+    WHERE s.date BETWEEN '20210120' AND '20210121'   
+    ORDER BY s.date, s.id, s.rank;
+    """
+    a =  sql_requests(sql)
+    out = []
+    for i in range(0, len(a), 4):
+        for j in range(i,i+4):
+            hoge = {}

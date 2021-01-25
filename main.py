@@ -116,6 +116,22 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=f"{tenhou_id}を{nickname}さんのアカウントとして記憶しました。"))
 
+    elif command['command'] == 'ろぐ':
+        days = []
+        if len(command['args'] == 0):
+            days.append("{:%Y%m%d}".format(datetime.now(JST).date()))
+        else:
+            for arg in command['args']:
+                try:
+                    tdatetime = "{:%Y%m%d}".format(datetime.strptime(arg,"%Y%m%d"))
+                    days.append()
+                except ValueError:
+                    line_bot_api.reply_message(
+                        event.reply_token,
+                        TextSendMessage(text="引数は YYYYmmdd の形で入力して下さい"))
+                    return
+        "\n".join(map(my_database.get_log,sorted(days)))
+
 if __name__ == "__main__":
     print("にゃーん")
     port = int(os.getenv("PORT","80"))
